@@ -187,7 +187,6 @@
         <section class="word-header">
           <h1 class="word-text" id="word-text">Wort</h1>
           <div class="word-meta">
-            <span id="word-language">Deutsch</span>
           </div>
         </section>
 
@@ -237,12 +236,10 @@
 
       function renderEntry(entry) {
         const wordText = document.getElementById("word-text");
-        const wordLanguage = document.getElementById("word-language");
         const definitionText = document.getElementById("definition-text");
         const examplesList = document.getElementById("examples-list");
 
         wordText.textContent = entry.word;
-        wordLanguage.textContent = entry.language || "";
         definitionText.textContent = entry.definition;
 
         examplesList.innerHTML = "";

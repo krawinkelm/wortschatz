@@ -2,7 +2,6 @@ const entries = [
   {
     id: "serendipitaet",
     word: "Serendipität",
-    language: "Deutsch",
     definition:
       "Das glückliche Finden von etwas Wertvollem oder Interessantem, nach dem man gar nicht gezielt gesucht hat.",
     examples: [
@@ -14,7 +13,6 @@ const entries = [
   {
     id: "ambivalenz",
     word: "Ambivalenz",
-    language: "Deutsch",
     definition:
       "Gleichzeitiges Vorhandensein gegensätzlicher Gefühle oder Gedanken. Ein Zustand, in dem etwas zugleich positiv und negativ bewertet wird. Innere Unentschiedenheit zwischen zwei entgegengesetzten Polen.",
     examples: [
@@ -25,7 +23,6 @@ const entries = [
   {
     id: "praezision",
     word: "Präzision",
-    language: "Deutsch",
     definition: "Genauigkeit in Ausdruck, Denken oder Handeln.",
     examples: [
       "Ihre Präzision in der Sprache beeindruckte das Publikum.",
@@ -35,7 +32,6 @@ const entries = [
   {
     id: "kontext",
     word: "Kontext",
-    language: "Deutsch",
     definition: "Zusammenhang, der das Verständnis einer Aussage ermöglicht.",
     examples: [
       "Ohne Kontext klingt der Satz missverständlich.",
@@ -45,7 +41,6 @@ const entries = [
   {
     id: "nuance",
     word: "Nuance",
-    language: "Deutsch",
     definition: "Feiner Unterschied in Bedeutung oder Ausdruck.",
     examples: [
       "Er erklärte die Nuancen des Begriffs sehr klar.",
