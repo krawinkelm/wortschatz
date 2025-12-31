@@ -208,6 +208,9 @@
           <button class="nav-button" type="button" id="prev-button" disabled>
             ◀ Zurück
           </button>
+          <button class="nav-button" type="button" id="random-button">
+            🎲 Zufall
+          </button>
           <button class="nav-button" type="button" id="next-button" disabled>
             Weiter ▶
           </button>
@@ -290,6 +293,7 @@
 
       function setupNavigation() {
         const prevButton = document.getElementById("prev-button");
+        const randomButton = document.getElementById("random-button");
         const nextButton = document.getElementById("next-button");
 
         prevButton.addEventListener("click", () => {
@@ -299,6 +303,20 @@
             updateNavigation();
             setHashForCurrentEntry();
           }
+        });
+
+        randomButton.addEventListener("click", () => {
+          if (state.entries.length === 0) {
+            return;
+          }
+          let nextIndex = Math.floor(Math.random() * state.entries.length);
+          if (state.entries.length > 1 && nextIndex === state.currentIndex) {
+            nextIndex = (nextIndex + 1) % state.entries.length;
+          }
+          state.currentIndex = nextIndex;
+          renderEntry(state.entries[state.currentIndex]);
+          updateNavigation();
+          setHashForCurrentEntry();
         });
 
         nextButton.addEventListener("click", () => {
