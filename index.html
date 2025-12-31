@@ -254,6 +254,39 @@
         gap: 8px;
       }
 
+      .letter-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0 0 12px;
+        padding: 0;
+      }
+
+      .letter-nav button {
+        appearance: none;
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border-subtle);
+        color: var(--text-main);
+        background: #ffffff;
+        cursor: pointer;
+      }
+
+      .letter-nav button.is-disabled {
+        color: var(--text-muted);
+        border-style: dashed;
+        pointer-events: none;
+      }
+
+      .entries-heading {
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        padding: 6px 6px 0;
+      }
+
       .entries-list a {
         display: block;
         padding: 10px 12px;
@@ -334,6 +367,7 @@
 
         <section class="list-card view" id="list-view" aria-live="polite">
           <h2 class="list-title">Alle Begriffe</h2>
+          <div class="letter-nav" id="letter-nav"></div>
           <ol class="entries-list" id="entries-list"></ol>
         </section>
       </main>
@@ -378,21 +412,67 @@
 
       function renderEntriesList() {
         const list = document.getElementById("entries-list");
+        const nav = document.getElementById("letter-nav");
         if (!list) {
           return;
         }
         list.innerHTML = "";
+        if (nav) {
+          nav.innerHTML = "";
+        }
         const sorted = [...state.entries].sort((a, b) =>
           (a.word || "").localeCompare(b.word || "", "de")
         );
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        const presentLetters = new Set();
+        sorted.forEach((entry) => {
+          const word = entry && (entry.word || entry.id);
+          if (!word) {
+            return;
+          }
+          const firstLetter = word.trim().charAt(0).toUpperCase();
+          if (firstLetter) {
+            presentLetters.add(firstLetter);
+          }
+        });
+        if (nav) {
+          alphabet.forEach((letter) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = letter;
+            if (!presentLetters.has(letter)) {
+              button.classList.add("is-disabled");
+              button.disabled = true;
+            } else {
+              button.addEventListener("click", () => {
+                const target = document.getElementById(`letter-${letter}`);
+                if (target) {
+                  target.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+              });
+            }
+            nav.appendChild(button);
+          });
+        }
+        let lastLetter = "";
         sorted.forEach((entry) => {
           if (!entry || !entry.id) {
             return;
           }
+          const word = entry.word || entry.id;
+          const firstLetter = word.trim().charAt(0).toUpperCase();
+          if (firstLetter && firstLetter !== lastLetter) {
+            const headingItem = document.createElement("li");
+            headingItem.id = `letter-${firstLetter}`;
+            headingItem.textContent = `${firstLetter}:`;
+            headingItem.classList.add("entries-heading");
+            list.appendChild(headingItem);
+            lastLetter = firstLetter;
+          }
           const item = document.createElement("li");
           const link = document.createElement("a");
           link.href = `#view=single&id=${encodeURIComponent(entry.id)}`;
-          link.textContent = entry.word || entry.id;
+          link.textContent = word;
           link.addEventListener("click", () => {
             setView("single");
           });
