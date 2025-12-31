@@ -219,20 +219,19 @@
       </footer>
     </div>
 
+    <script src="data.js"></script>
     <script>
-      // Einfaches Datenmodell für genau ein Wort.
-      // Diese Struktur kann später zu einer Liste von Wörtern erweitert werden.
-      const currentEntry = {
-        word: "Serendipität",
-        language: "Deutsch",
-        definition:
-          "Das glückliche Finden von etwas Wertvollem oder Interessantem, nach dem man gar nicht gezielt gesucht hat.",
-        examples: [
-          "Durch einen Zufall stieß er auf das perfekte Buch – reine Serendipität.",
-          "Viele wissenschaftliche Entdeckungen beruhen auf Serendipität.",
-          "Beim Stöbern im Antiquariat erlebt sie oft Momente der Serendipität.",
-        ],
+      const state = {
+        entries: Array.isArray(entries) ? entries : [],
+        currentIndex: 0,
+        byId: new Map(),
       };
+
+      state.entries.forEach((entry, index) => {
+        if (entry && entry.id) {
+          state.byId.set(entry.id, { entry, index });
+        }
+      });
 
       function renderEntry(entry) {
         const wordText = document.getElementById("word-text");
@@ -254,23 +253,51 @@
         }
       }
 
+      function showEntryById(entryId) {
+        const hit = state.byId.get(entryId);
+        if (!hit) {
+          return;
+        }
+        state.currentIndex = hit.index;
+        renderEntry(hit.entry);
+        updateNavigation();
+      }
+
       // Platzhalter für spätere Navigationsfunktionen.
       // Aktuell sind die Buttons deaktiviert, bleiben aber im Layout sichtbar.
+      function updateNavigation() {
+        const prevButton = document.getElementById("prev-button");
+        const nextButton = document.getElementById("next-button");
+        prevButton.disabled = state.currentIndex === 0;
+        nextButton.disabled = state.currentIndex >= state.entries.length - 1;
+      }
+
       function setupNavigation() {
         const prevButton = document.getElementById("prev-button");
         const nextButton = document.getElementById("next-button");
 
         prevButton.addEventListener("click", () => {
-          // Hier könnte später das vorherige Wort geladen werden.
+          if (state.currentIndex > 0) {
+            state.currentIndex -= 1;
+            renderEntry(state.entries[state.currentIndex]);
+            updateNavigation();
+          }
         });
 
         nextButton.addEventListener("click", () => {
-          // Hier könnte später das nächste Wort geladen werden.
+          if (state.currentIndex < state.entries.length - 1) {
+            state.currentIndex += 1;
+            renderEntry(state.entries[state.currentIndex]);
+            updateNavigation();
+          }
         });
+        updateNavigation();
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        renderEntry(currentEntry);
+        if (state.entries.length > 0) {
+          renderEntry(state.entries[state.currentIndex]);
+        }
         setupNavigation();
       });
     </script>
