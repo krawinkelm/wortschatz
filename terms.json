@@ -16,8 +16,7 @@
     "id": "praezision",
     "title": "Präzision",
     "explanations": [
-      { "id": "praezision-1", "text": "Genauigkeit in Ausdruck, Denken oder Handeln." },
-      { "id": "praezision-2", "text": "Sorgfältige Übereinstimmung mit einem festgelegten Maßstab." }
+      { "id": "praezision-1", "text": "Genauigkeit in Ausdruck, Denken oder Handeln." }
     ],
     "exampleSentences": [
       { "id": "praezision-1", "text": "Ihre Präzision in der Sprache beeindruckte das Publikum." },
@@ -28,8 +27,7 @@
     "id": "kontext",
     "title": "Kontext",
     "explanations": [
-      { "id": "kontext-1", "text": "Zusammenhang, der das Verständnis einer Aussage ermöglicht." },
-      { "id": "kontext-2", "text": "Der Rahmen, in dem ein Begriff oder ein Ereignis steht." }
+      { "id": "kontext-1", "text": "Zusammenhang, der das Verständnis einer Aussage ermöglicht." }
     ],
     "exampleSentences": [
       { "id": "kontext-1", "text": "Ohne Kontext klingt der Satz missverständlich." },
@@ -40,8 +38,7 @@
     "id": "nuance",
     "title": "Nuance",
     "explanations": [
-      { "id": "nuance-1", "text": "Feiner Unterschied in Bedeutung oder Ausdruck." },
-      { "id": "nuance-2", "text": "Kleine Abstufung, die eine Aussage präziser macht." }
+      { "id": "nuance-1", "text": "Feiner Unterschied in Bedeutung oder Ausdruck." }
     ],
     "exampleSentences": [
       { "id": "nuance-1", "text": "Er erklärte die Nuancen des Begriffs sehr klar." },
