@@ -136,10 +136,16 @@
       }
 
       .nav-row {
-        margin-top: 12px;
+        margin: 12px 0 6px;
         display: flex;
-        justify-content: flex-end;
-        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--border-subtle);
+        border-radius: 999px;
+        background: #f8fafc;
       }
 
       .nav-button {
@@ -184,6 +190,18 @@
       </header>
 
       <main class="card" aria-live="polite">
+        <div class="nav-row">
+          <button class="nav-button" type="button" id="prev-button" disabled>
+            ◀ Zurück
+          </button>
+          <button class="nav-button" type="button" id="random-button">
+            🎲 Zufall
+          </button>
+          <button class="nav-button" type="button" id="next-button" disabled>
+            Weiter ▶
+          </button>
+        </div>
+
         <section class="word-header">
           <h1 class="word-text" id="word-text">Wort</h1>
           <div class="word-meta">
@@ -202,17 +220,6 @@
           <ol id="examples-list" class="examples-list"></ol>
         </section>
 
-        <div class="nav-row">
-          <button class="nav-button" type="button" id="prev-button" disabled>
-            ◀ Zurück
-          </button>
-          <button class="nav-button" type="button" id="random-button">
-            🎲 Zufall
-          </button>
-          <button class="nav-button" type="button" id="next-button" disabled>
-            Weiter ▶
-          </button>
-        </div>
       </main>
 
       <footer class="app-footer">
