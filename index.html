@@ -188,7 +188,6 @@
         <section class="word-header">
           <h1 class="word-text" id="word-text">Wort</h1>
           <div class="word-meta">
-            <span id="word-type">Substantiv</span>
             <span id="word-language">Deutsch</span>
           </div>
         </section>
@@ -225,7 +224,6 @@
       // Diese Struktur kann später zu einer Liste von Wörtern erweitert werden.
       const currentEntry = {
         word: "Serendipität",
-        type: "Substantiv",
         language: "Deutsch",
         definition:
           "Das glückliche Finden von etwas Wertvollem oder Interessantem, nach dem man gar nicht gezielt gesucht hat.",
@@ -238,13 +236,11 @@
 
       function renderEntry(entry) {
         const wordText = document.getElementById("word-text");
-        const wordType = document.getElementById("word-type");
         const wordLanguage = document.getElementById("word-language");
         const definitionText = document.getElementById("definition-text");
         const examplesList = document.getElementById("examples-list");
 
         wordText.textContent = entry.word;
-        wordType.textContent = entry.type || "";
         wordLanguage.textContent = entry.language || "";
         definitionText.textContent = entry.definition;
 
