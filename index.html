@@ -51,6 +51,62 @@
         letter-spacing: 0.02em;
       }
 
+      .menu-button {
+        appearance: none;
+        border: 1px solid var(--border-subtle);
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 6px 10px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      .menu-button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .menu-panel {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: #ffffff;
+        border: 1px solid var(--border-subtle);
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+        padding: 8px;
+        min-width: 200px;
+        display: none;
+        z-index: 10;
+      }
+
+      .menu-panel[aria-hidden="false"] {
+        display: block;
+      }
+
+      .menu-panel button {
+        width: 100%;
+        text-align: left;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        background: transparent;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .menu-panel button:hover,
+      .menu-panel button:focus-visible {
+        border-color: var(--border-subtle);
+        background: #f8fafc;
+      }
+
+      .menu-panel button.is-active {
+        border-color: var(--accent);
+        background: #eef2f7;
+        font-weight: 600;
+      }
+
       .badge {
         font-size: 0.7rem;
         text-transform: uppercase;
@@ -168,6 +224,51 @@
         outline-offset: 2px;
       }
 
+      .view {
+        display: none;
+      }
+
+      .view.is-active {
+        display: block;
+      }
+
+      .list-card {
+        background: var(--bg-card);
+        border-radius: 14px;
+        border: 1px solid var(--border-subtle);
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+        padding: 18px 16px 20px;
+      }
+
+      .list-title {
+        margin: 0 0 12px;
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+      }
+
+      .entries-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .entries-list a {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border-subtle);
+        color: var(--text-main);
+        text-decoration: none;
+        background: #ffffff;
+      }
+
+      .entries-list a:hover,
+      .entries-list a:focus-visible {
+        border-color: var(--accent);
+        outline: none;
+      }
       @media (min-width: 768px) {
         .app-shell {
           padding-top: 32px;
@@ -187,39 +288,54 @@
     <div class="app-shell" aria-label="Lern-Wörterbuch">
       <header class="app-header">
         <div class="app-title">Wortschatz</div>
+        <div style="position: relative;">
+          <button class="menu-button" type="button" id="menu-button" aria-expanded="false" aria-controls="menu-panel">
+            ☰
+          </button>
+          <div class="menu-panel" id="menu-panel" role="menu" aria-hidden="true">
+            <button type="button" role="menuitem" data-view="single">Einzelansicht</button>
+            <button type="button" role="menuitem" data-view="list">Alle Begriffe</button>
+          </div>
+        </div>
       </header>
 
-      <main class="card" aria-live="polite">
-        <div class="nav-row">
-          <button class="nav-button" type="button" id="prev-button" disabled>
-            ◀ Zurück
-          </button>
-          <button class="nav-button" type="button" id="random-button">
-            🎲 Zufall
-          </button>
-          <button class="nav-button" type="button" id="next-button" disabled>
-            Weiter ▶
-          </button>
-        </div>
-
-        <section class="word-header">
-          <h1 class="word-text" id="word-text">Wort</h1>
-          <div class="word-meta">
+      <main>
+        <section class="card view is-active" id="single-view" aria-live="polite">
+          <div class="nav-row">
+            <button class="nav-button" type="button" id="prev-button" disabled>
+              ◀ Zurück
+            </button>
+            <button class="nav-button" type="button" id="random-button">
+              🎲 Zufall
+            </button>
+            <button class="nav-button" type="button" id="next-button" disabled>
+              Weiter ▶
+            </button>
           </div>
+
+          <section class="word-header">
+            <h1 class="word-text" id="word-text">Wort</h1>
+            <div class="word-meta">
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="definition-heading">
+            <h2 id="definition-heading" class="section-title">Bedeutung</h2>
+            <p id="definition-text" class="definition-text">
+              Hier steht eine kurze, klare Erklärung des Wortes.
+            </p>
+          </section>
+
+          <section class="section" aria-labelledby="examples-heading">
+            <h2 id="examples-heading" class="section-title">Beispiele</h2>
+            <ol id="examples-list" class="examples-list"></ol>
+          </section>
         </section>
 
-        <section class="section" aria-labelledby="definition-heading">
-          <h2 id="definition-heading" class="section-title">Bedeutung</h2>
-          <p id="definition-text" class="definition-text">
-            Hier steht eine kurze, klare Erklärung des Wortes.
-          </p>
+        <section class="list-card view" id="list-view" aria-live="polite">
+          <h2 class="list-title">Alle Begriffe</h2>
+          <ol class="entries-list" id="entries-list"></ol>
         </section>
-
-        <section class="section" aria-labelledby="examples-heading">
-          <h2 id="examples-heading" class="section-title">Beispiele</h2>
-          <ol id="examples-list" class="examples-list"></ol>
-        </section>
-
       </main>
 
       <footer class="app-footer">
@@ -233,6 +349,7 @@
         entries: Array.isArray(entries) ? entries : [],
         currentIndex: 0,
         byId: new Map(),
+        currentView: "single",
       };
 
       state.entries.forEach((entry, index) => {
@@ -259,6 +376,31 @@
         }
       }
 
+      function renderEntriesList() {
+        const list = document.getElementById("entries-list");
+        if (!list) {
+          return;
+        }
+        list.innerHTML = "";
+        const sorted = [...state.entries].sort((a, b) =>
+          (a.word || "").localeCompare(b.word || "", "de")
+        );
+        sorted.forEach((entry) => {
+          if (!entry || !entry.id) {
+            return;
+          }
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `#view=single&id=${encodeURIComponent(entry.id)}`;
+          link.textContent = entry.word || entry.id;
+          link.addEventListener("click", () => {
+            setView("single");
+          });
+          item.appendChild(link);
+          list.appendChild(item);
+        });
+      }
+
       function showEntryById(entryId) {
         const hit = state.byId.get(entryId);
         if (!hit) {
@@ -269,11 +411,73 @@
         updateNavigation();
       }
 
-      function getEntryIdFromHash() {
-        if (!window.location.hash) {
-          return null;
+      function setView(nextView, options = {}) {
+        state.currentView = nextView;
+        const singleView = document.getElementById("single-view");
+        const listView = document.getElementById("list-view");
+        const menuPanel = document.getElementById("menu-panel");
+        const shouldRenderSingle = options.renderEntry !== false;
+        if (singleView) {
+          singleView.classList.toggle("is-active", nextView === "single");
         }
-        return decodeURIComponent(window.location.hash.replace(/^#/, ""));
+        if (listView) {
+          listView.classList.toggle("is-active", nextView === "list");
+        }
+        if (menuPanel) {
+          menuPanel.querySelectorAll("[data-view]").forEach((item) => {
+            const isActive = item.dataset.view === nextView;
+            item.classList.toggle("is-active", isActive);
+            if (isActive) {
+              item.setAttribute("aria-current", "page");
+            } else {
+              item.removeAttribute("aria-current");
+            }
+          });
+        }
+        if (nextView === "list") {
+          renderEntriesList();
+        }
+        if (nextView === "single" && state.entries.length > 0 && shouldRenderSingle) {
+          renderEntry(state.entries[state.currentIndex]);
+          updateNavigation();
+        }
+        if (options.syncHash) {
+          if (nextView === "list") {
+            const params = new URLSearchParams();
+            params.set("view", "list");
+            setHashParams(params);
+          } else {
+            setHashForCurrentEntry();
+          }
+        }
+      }
+
+      function getHashParams() {
+        if (!window.location.hash) {
+          return new URLSearchParams();
+        }
+        return new URLSearchParams(window.location.hash.replace(/^#/, ""));
+      }
+
+      function getViewFromHash() {
+        const params = getHashParams();
+        const hasView = params.has("view");
+        const hasId = params.has("id");
+        let view = params.get("view") || "single";
+        if (view !== "list" && view !== "single") {
+          view = "single";
+        }
+        const entryId = view === "list" ? null : params.get("id");
+        return { view, entryId, hasView, hasId };
+      }
+
+      function setHashParams(params) {
+        const nextHash = params.toString();
+        const currentHash = window.location.hash.replace(/^#/, "");
+        if (currentHash === nextHash) {
+          return;
+        }
+        window.location.hash = nextHash ? `#${nextHash}` : "";
       }
 
       function setHashForCurrentEntry() {
@@ -281,10 +485,10 @@
         if (!entry || !entry.id) {
           return;
         }
-        if (getEntryIdFromHash() === entry.id) {
-          return;
-        }
-        window.location.hash = encodeURIComponent(entry.id);
+        const params = new URLSearchParams();
+        params.set("view", "single");
+        params.set("id", entry.id);
+        setHashParams(params);
       }
 
       function updateNavigation() {
@@ -333,24 +537,78 @@
         updateNavigation();
       }
 
+      function setupMenu() {
+        const menuButton = document.getElementById("menu-button");
+        const menuPanel = document.getElementById("menu-panel");
+        if (!menuButton || !menuPanel) {
+          return;
+        }
+
+        function closeMenu() {
+          menuPanel.setAttribute("aria-hidden", "true");
+          menuButton.setAttribute("aria-expanded", "false");
+        }
+
+        menuButton.addEventListener("click", () => {
+          const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+          menuButton.setAttribute("aria-expanded", String(!isOpen));
+          menuPanel.setAttribute("aria-hidden", String(isOpen));
+        });
+
+        menuPanel.addEventListener("click", (event) => {
+          const target = event.target;
+          if (!(target instanceof HTMLButtonElement)) {
+            return;
+          }
+          const view = target.dataset.view;
+          if (view === "single" || view === "list") {
+            setView(view, { syncHash: true });
+          }
+          closeMenu();
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!menuPanel.contains(event.target) && event.target !== menuButton) {
+            closeMenu();
+          }
+        });
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         if (state.entries.length > 0) {
-          const entryId = getEntryIdFromHash();
-          if (entryId && state.byId.has(entryId)) {
-            showEntryById(entryId);
+          const hashState = getViewFromHash();
+          if (hashState.view === "list") {
+            setView("list", { syncHash: !hashState.hasView || hashState.hasId });
+          } else if (hashState.entryId && state.byId.has(hashState.entryId)) {
+            setView("single", {
+              syncHash: !hashState.hasView || !hashState.hasId,
+              renderEntry: false,
+            });
+            showEntryById(hashState.entryId);
           } else {
-            renderEntry(state.entries[state.currentIndex]);
-            updateNavigation();
-            setHashForCurrentEntry();
+            setView("single", { syncHash: true });
           }
         }
         setupNavigation();
+        setupMenu();
       });
 
       window.addEventListener("hashchange", () => {
-        const entryId = getEntryIdFromHash();
-        if (entryId && state.byId.has(entryId)) {
-          showEntryById(entryId);
+        const hashState = getViewFromHash();
+        if (hashState.view === "list") {
+          setView("list", { syncHash: !hashState.hasView || hashState.hasId });
+          return;
+        }
+        if (hashState.entryId && state.byId.has(hashState.entryId)) {
+          setView("single", {
+            syncHash: !hashState.hasView || !hashState.hasId,
+            renderEntry: false,
+          });
+          showEntryById(hashState.entryId);
+          return;
+        }
+        if (state.entries.length > 0) {
+          setView("single", { syncHash: true });
         }
       });
     </script>
