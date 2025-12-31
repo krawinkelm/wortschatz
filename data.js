@@ -11,4 +11,15 @@ const entries = [
       "Beim Stöbern im Antiquariat erlebt sie oft Momente der Serendipität.",
     ],
   },
+  {
+      id: "ambivalenz",
+      word: "Ambivalenz",
+      language: "Deutsch",
+      definition:
+        "Gleichzeitiges Vorhandensein gegensätzlicher Gefühle oder Gedanken."
+      examples: [
+        "Sie empfand Ambivalenz zwischen Vorfreude und Zweifel.",
+        "Seine Ambivalenz war in jedem Satz spürbar."
+      ],
+    },
 ];
