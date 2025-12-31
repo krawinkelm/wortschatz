@@ -263,8 +263,24 @@
         updateNavigation();
       }
 
-      // Platzhalter für spätere Navigationsfunktionen.
-      // Aktuell sind die Buttons deaktiviert, bleiben aber im Layout sichtbar.
+      function getEntryIdFromHash() {
+        if (!window.location.hash) {
+          return null;
+        }
+        return decodeURIComponent(window.location.hash.replace(/^#/, ""));
+      }
+
+      function setHashForCurrentEntry() {
+        const entry = state.entries[state.currentIndex];
+        if (!entry || !entry.id) {
+          return;
+        }
+        if (getEntryIdFromHash() === entry.id) {
+          return;
+        }
+        window.location.hash = encodeURIComponent(entry.id);
+      }
+
       function updateNavigation() {
         const prevButton = document.getElementById("prev-button");
         const nextButton = document.getElementById("next-button");
@@ -281,6 +297,7 @@
             state.currentIndex -= 1;
             renderEntry(state.entries[state.currentIndex]);
             updateNavigation();
+            setHashForCurrentEntry();
           }
         });
 
@@ -289,6 +306,7 @@
             state.currentIndex += 1;
             renderEntry(state.entries[state.currentIndex]);
             updateNavigation();
+            setHashForCurrentEntry();
           }
         });
         updateNavigation();
@@ -296,9 +314,23 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         if (state.entries.length > 0) {
-          renderEntry(state.entries[state.currentIndex]);
+          const entryId = getEntryIdFromHash();
+          if (entryId && state.byId.has(entryId)) {
+            showEntryById(entryId);
+          } else {
+            renderEntry(state.entries[state.currentIndex]);
+            updateNavigation();
+            setHashForCurrentEntry();
+          }
         }
         setupNavigation();
+      });
+
+      window.addEventListener("hashchange", () => {
+        const entryId = getEntryIdFromHash();
+        if (entryId && state.byId.has(entryId)) {
+          showEntryById(entryId);
+        }
       });
     </script>
   </body>

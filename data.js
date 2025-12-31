@@ -12,14 +12,14 @@ const entries = [
     ],
   },
   {
-      id: "ambivalenz",
-      word: "Ambivalenz",
-      language: "Deutsch",
-      definition:
-        "Gleichzeitiges Vorhandensein gegensätzlicher Gefühle oder Gedanken."
-      examples: [
-        "Sie empfand Ambivalenz zwischen Vorfreude und Zweifel.",
-        "Seine Ambivalenz war in jedem Satz spürbar."
-      ],
-    },
+    id: "ambivalenz",
+    word: "Ambivalenz",
+    language: "Deutsch",
+    definition:
+      "Gleichzeitiges Vorhandensein gegensätzlicher Gefühle oder Gedanken.",
+    examples: [
+      "Sie empfand Ambivalenz zwischen Vorfreude und Zweifel.",
+      "Seine Ambivalenz war in jedem Satz spürbar.",
+    ],
+  },
 ];
