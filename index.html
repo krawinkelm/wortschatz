@@ -2,6 +2,18 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta
+      http-equiv="Permissions-Policy"
+      content="geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="pictures/favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
@@ -11,7 +23,7 @@
     <div class="app-shell" aria-label="Lern-Wörterbuch">
       <header class="app-header">
         <div class="app-title">Wortschatz</div>
-        <div style="position: relative;">
+        <div class="menu-wrapper">
           <button class="menu-button" type="button" id="menu-button" aria-expanded="false" aria-controls="menu-panel">
             ☰
           </button>

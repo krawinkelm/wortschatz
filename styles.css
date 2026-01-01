@@ -44,6 +44,10 @@ body {
   letter-spacing: 0.02em;
 }
 
+.menu-wrapper {
+  position: relative;
+}
+
 .menu-button {
   appearance: none;
   border: 1px solid var(--border-subtle);
