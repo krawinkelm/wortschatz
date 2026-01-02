@@ -1,0 +1,19 @@
+{
+  "name": "Wortschatz",
+  "short_name": "Wortschatz",
+  "description": "Wortschatz ist eine Web-Applikation, um seinen Wortschatz zu vergrößern.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#f4f4f5",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "pictures/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
