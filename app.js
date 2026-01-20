@@ -3,7 +3,69 @@ const state = {
   currentIndex: 0,
   byId: new Map(),
   currentView: "single",
+  favorites: new Set(),
 };
+
+const FAVORITES_KEY = "wortschatz:favorites";
+
+function loadFavorites() {
+  try {
+    const raw = localStorage.getItem(FAVORITES_KEY);
+    if (!raw) {
+      return new Set();
+    }
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return new Set();
+    }
+    return new Set(parsed.filter(Boolean));
+  } catch (error) {
+    return new Set();
+  }
+}
+
+function saveFavorites() {
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify([...state.favorites]));
+}
+
+function setFavoriteButtonState(button, isFavorite) {
+  button.setAttribute("aria-pressed", String(isFavorite));
+  button.textContent = isFavorite ? "★" : "☆";
+  button.title = isFavorite ? "Aus Favoriten entfernen" : "Als Favorit markieren";
+}
+
+function updateFavoriteButtons(entryId) {
+  if (!entryId) {
+    return;
+  }
+  const isFavorite = state.favorites.has(entryId);
+  const singleButton = document.getElementById("favorite-button");
+  if (singleButton) {
+    singleButton.dataset.entryId = entryId;
+    setFavoriteButtonState(singleButton, isFavorite);
+  }
+  document.querySelectorAll(".favorite-button[data-entry-id]").forEach((button) => {
+    if (button.dataset.entryId !== entryId) {
+      return;
+    }
+    setFavoriteButtonState(button, isFavorite);
+  });
+}
+
+function toggleFavorite(entryId) {
+  if (!entryId) {
+    return;
+  }
+  if (state.favorites.has(entryId)) {
+    state.favorites.delete(entryId);
+  } else {
+    state.favorites.add(entryId);
+  }
+  saveFavorites();
+  updateFavoriteButtons(entryId);
+}
+
+state.favorites = loadFavorites();
 
 state.entries.forEach((entry, index) => {
   if (entry && entry.id) {
@@ -18,6 +80,8 @@ function renderEntry(entry) {
 
   wordText.textContent = entry.word;
   definitionText.textContent = entry.definition;
+
+  updateFavoriteButtons(entry.id);
 
   examplesList.innerHTML = "";
   if (Array.isArray(entry.examples)) {
@@ -89,13 +153,25 @@ function renderEntriesList() {
       lastLetter = firstLetter;
     }
     const item = document.createElement("li");
+    item.classList.add("entries-item");
     const link = document.createElement("a");
     link.href = `#view=single&id=${encodeURIComponent(entry.id)}`;
     link.textContent = word;
     link.addEventListener("click", () => {
       setView("single");
     });
+    const favoriteButton = document.createElement("button");
+    favoriteButton.type = "button";
+    favoriteButton.classList.add("favorite-button");
+    favoriteButton.dataset.entryId = entry.id;
+    setFavoriteButtonState(favoriteButton, state.favorites.has(entry.id));
+    favoriteButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      toggleFavorite(entry.id);
+    });
     item.appendChild(link);
+    item.appendChild(favoriteButton);
     list.appendChild(item);
   });
 }
@@ -273,6 +349,20 @@ function setupMenu() {
   });
 }
 
+function setupFavorites() {
+  const favoriteButton = document.getElementById("favorite-button");
+  if (!favoriteButton) {
+    return;
+  }
+  favoriteButton.addEventListener("click", () => {
+    const entry = state.entries[state.currentIndex];
+    if (!entry || !entry.id) {
+      return;
+    }
+    toggleFavorite(entry.id);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   if (state.entries.length > 0) {
     const hashState = getViewFromHash();
@@ -290,6 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   setupNavigation();
   setupMenu();
+  setupFavorites();
 });
 
 window.addEventListener("hashchange", () => {
