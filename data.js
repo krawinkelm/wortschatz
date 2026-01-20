@@ -30,21 +30,21 @@ const entries = [
     ],
   },
   {
-    id: "kontext",
-    word: "Kontext",
-    definition: "Zusammenhang, der das Verständnis einer Aussage ermöglicht.",
-    examples: [
-      "Ohne Kontext klingt der Satz missverständlich.",
-      "Der historische Kontext erklärt die Entscheidung.",
-    ],
-  },
-  {
     id: "nuance",
     word: "Nuance",
     definition: "Feiner Unterschied in Bedeutung oder Ausdruck.",
     examples: [
       "Er erklärte die Nuancen des Begriffs sehr klar.",
       "Eine Nuance kann den Tonfall komplett verändern.",
+    ],
+  },
+  {
+    id: "ambiguitaet",
+    word: "Ambiguität",
+    definition: "Mehrdeutigkeit; das gleichzeitige Bestehen mehrerer Bedeutungen oder Interpretationen.",
+    examples: [
+      "Der Satz lebt von seiner Ambiguität.",
+      "Literarische Texte nutzen Ambiguität oft gezielt.",
     ],
   },
 ];
