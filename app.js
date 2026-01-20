@@ -63,6 +63,7 @@ function toggleFavorite(entryId) {
   }
   saveFavorites();
   updateFavoriteButtons(entryId);
+  renderFavoritesList();
 }
 
 state.favorites = loadFavorites();
@@ -82,6 +83,7 @@ function renderEntry(entry) {
   definitionText.textContent = entry.definition;
 
   updateFavoriteButtons(entry.id);
+  renderFavoritesList();
 
   examplesList.innerHTML = "";
   if (Array.isArray(entry.examples)) {
@@ -91,6 +93,28 @@ function renderEntry(entry) {
       examplesList.appendChild(li);
     });
   }
+}
+
+function renderFavoritesList() {
+  const list = document.getElementById("favorites-list");
+  if (!list) {
+    return;
+  }
+  list.innerHTML = "";
+  const favoriteEntries = state.entries
+    .filter((entry) => entry && entry.id && state.favorites.has(entry.id))
+    .sort((a, b) => (a.word || "").localeCompare(b.word || "", "de"));
+  favoriteEntries.forEach((entry) => {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `#view=single&id=${encodeURIComponent(entry.id)}`;
+    link.textContent = entry.word || entry.id;
+    link.addEventListener("click", () => {
+      setView("single");
+    });
+    item.appendChild(link);
+    list.appendChild(item);
+  });
 }
 
 function renderEntriesList() {
